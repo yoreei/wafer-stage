@@ -19,15 +19,14 @@ public:
     }
     void run()
     {
-        auto core_ptr = shared_from_this();
-        std::cout << "Reference count before task creation: " << core_ptr.use_count() << std::endl;
-
         float tar_pos;
         std::cout<<"target position:\n";
         std::cin>>tar_pos;
         float accel;
         std::cout<<"acceleration:\n";
         std::cin>>accel;
+
+        auto core_ptr = shared_from_this();
 
         auto stage_task = run_task([tar_pos, accel, core_ptr](){
             core_ptr->get_wafer()->move(tar_pos, accel);
@@ -78,7 +77,6 @@ int main()
     LOG_INFO("INIT main");
 
     shr_ptr<Core> core = Core::create();
-    std::cout << "Reference count before run: " << core.use_count() << std::endl;
     core->run();
 
     LOG_INFO("END main");

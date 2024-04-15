@@ -5,6 +5,7 @@ import <thread>;
 import <cmath>;
 import coremem;
 import logger;
+//export import :move_profile;
 
 void Triangular_profile::set_target(float velocity_norm, float tar_pos)
 {

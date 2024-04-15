@@ -19,7 +19,7 @@ namespace logger {
     export std::string str_from_LogLevel(LogLevel lvl) {
         switch (lvl) {
             case LogLevel::INFO:
-                return "ERROR";
+                return "INFO";
             case LogLevel::DEBUG:
                 return "DEBUG";
             case LogLevel::TRACE:
@@ -48,24 +48,24 @@ namespace logger {
         FileLogger(const FileLogger&) = delete;
         FileLogger& operator=(const FileLogger&) = delete;
 
-        fs::path path;
-        std::ofstream file;
-        std::mutex mtx;
+        fs::path m_path;
+        std::ofstream m_file;
+        std::mutex m_mtx;
     };
 
     FileLogger::~FileLogger() {
-        if (file.is_open()) {
-            file.close();
+        if (m_file.is_open()) {
+            m_file.close();
         }
     }
 
-    FileLogger::FileLogger(const std::string& _path) : path(_path)
+    FileLogger::FileLogger(const std::string& _path) : m_path(_path)
     {
         // TODO implement rotating log files
-        file = {path, std::ios::app};
+        m_file = {m_path, std::ios::app};
 
-        if (!file.is_open()) {
-            std::cerr << "Failed to open log file: " << path << std::endl;
+        if (!m_file.is_open()) {
+            std::cerr << "Failed to open log file: " << m_path << std::endl;
         }
     }
 
@@ -79,19 +79,20 @@ namespace logger {
                          const std::string_view txt,
                          const std::source_location& loc)
     {
-            std::lock_guard<std::mutex> lock(mtx);
+            std::lock_guard<std::mutex> lock(m_mtx);
 
-            if (!file.is_open()) {
+            if (!m_file.is_open()) {
                 std::cerr << "Log file not open!" << std::endl;
                 return;
             }
 
-            file << str_from_LogLevel(lvl) << ":"
+            m_file << str_from_LogLevel(lvl) << ":"
                  << loc.file_name() << ':'
                  << loc.line() << ':'
                  // << loc.column() << ":"
                  << loc.function_name() << ":"
                  << txt << '\n';
+            m_file.flush();
     }
 
     void _log(const LogLevel lvl,
