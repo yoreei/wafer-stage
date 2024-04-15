@@ -7,7 +7,8 @@ target_sources(model.wafer
   PUBLIC
     FILE_SET CXX_MODULES FILES
       modules/wafer/wafer.cpp
-      modules/wafer/wafer_impl.cpp)
+      modules/wafer/triangular_profile_impl.cpp
+      modules/wafer/wafer_stage_impl.cpp)
 
 add_library(logger)
 target_compile_features(logger PUBLIC cxx_std_20)
