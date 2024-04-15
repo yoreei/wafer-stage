@@ -1,10 +1,16 @@
 export module renderer;
-import sim;
+import model.wafer;
+import coremem;
 
-export class IRenderer {
-    virtual void render(sim::IWaferStage wafer) = 0;
+export class Irenderer {
+public:
+    virtual void render(shr_ptr<Iwafer_stage> wafer) = 0;
 };
 
-class ConsoleRenderer : public IRenderer {
-    virtual void render(sim::IWaferStage wafer) override;
+export class Console_renderer : public Irenderer {
+public:
+    // Irenderer
+    virtual void render(shr_ptr<Iwafer_stage> wafer) override;
+private:
+    void write(Iwafer_stage& wafer);
 };
