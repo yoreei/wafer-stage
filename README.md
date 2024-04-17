@@ -56,3 +56,7 @@ acceleration, and distance.
 2. The software shall be buildable on Linux.
 3. A CMake project is preferable, but not required.
    If another build system is chosen, please include build instructions.
+
+# Coding Style Guide
+
+[https://www.stroustrup.com/Programming/PPP-style.pdf](https://www.stroustrup.com/Programming/PPP-style.pdf)
